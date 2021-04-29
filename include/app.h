@@ -28,17 +28,18 @@
 /// Config
 #define PORT       42
 #define MAX_CLIENT 1
+#define STOP_CMD   "exit"
+#define SHELL_NAME "bash"
 
 /// Core
-int app_start(void);
+int app(void);
 
+int app_process_request(server_t *server);
 int signal_init(void);
 
-int process_command(const char *command, server_t *server, shell_t *shell);
-
 /// SHELL
-void shell_stop(shell_t *shell);
 int shell_client_init(socket_t *client, shell_t *shell);
+void shell_stop(shell_t *shell);
 int send_shell_command(shell_t *shell, const char *command);
 
 /// USER

@@ -7,13 +7,11 @@
 
 #include "app.h"
 
-static const char *LOGOUT_CMD = "exit";
-
 bool is_logout_command(const char *command)
 {
     for (size_t i = 0; command[i] != '\0'; i++) {
         if (false == isblank(command[i])) {
-            if (strncmp(&command[i], LOGOUT_CMD, strlen(LOGOUT_CMD)) == 0) {
+            if (strncmp(&command[i], STOP_CMD, strlen(STOP_CMD)) == 0) {
                 return true;
             }
             return false;

@@ -8,11 +8,13 @@
 DSRC	=	./src/
 
 SRC_FILES	=	main.c							\
-				app/app_start.c					\
-				app/process_command.c			\
+				app/app.c						\
+				app/app_process_request.c		\
 				app/signal_init.c				\
-				app/shell_client.c				\
 				app/logout_user.c				\
+				shell/shell_client_init.c		\
+				shell/shell_stop.c				\
+				shell/send_shell_command.c		\
 				daemon/daemon_init.c			\
 				daemon/daemon_start.c			\
 				socket/socket_send.c			\
