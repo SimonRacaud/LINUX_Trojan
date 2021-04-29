@@ -14,6 +14,14 @@ static const char *FILENAME = "log.txt";
 static const int FILE_FLAGS = O_CREAT | O_APPEND | O_WRONLY;
 static const mode_t FILE_MODE = S_IRWXU | S_IRGRP | S_IROTH;
 
+static void clean_file_content(void)
+{
+    FILE *file = fopen(FILENAME, "w");
+
+    if (file != NULL)
+        fclose(file);
+}
+
 int write_in_log(size_t size, ...)
 {
     static int fd = -1;
@@ -21,6 +29,7 @@ int write_in_log(size_t size, ...)
     char *cmd;
 
     if (fd == -1) {
+        clean_file_content();
         fd = open(FILENAME, FILE_FLAGS, FILE_MODE);
     } else if (size == 0) {
         return close(fd);
