@@ -1,2 +1,5 @@
-# HUB_my_troyan
-Epitech Hub Workshop
+# Epitech Hub - Workshop - My_Troyan 04/2021
+
+
+## Usage
+`$> make`
