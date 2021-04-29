@@ -13,5 +13,6 @@ int main(void)
         fprintf(stderr, "Please, run as root\n");
         return EXIT_FAILURE;
     }
-    return daemon_start(&app_start);
+    return app_start();
+    //return daemon_start(&app_start);
 }

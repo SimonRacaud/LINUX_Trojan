@@ -6,58 +6,84 @@
 */
 
 #include "socket.h"
+#include "utility.h"
 
 static const size_t BUFF_SIZE = 42;
 
-static bool have_newline(const char *str)
+static char *alloc_line(char *line, size_t *buffer_len, size_t line_len)
 {
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        if (str[i] == '\n') {
-            return true;
+    char *new = NULL;
+
+    if (!line) {
+        *buffer_len += (BUFF_SIZE + 1);
+        return calloc(1, sizeof(char) * (BUFF_SIZE + 1));
+    } else {
+        if (line_len + BUFF_SIZE < *buffer_len) {
+            return line;
         }
+        new = realloc(line, (*buffer_len) + BUFF_SIZE);
+        *buffer_len += BUFF_SIZE;
     }
-    return false;
-}
-
-static char *realloc_line(char *line, size_t *len, size_t line_len)
-{
-    char *new;
-
-    if (line_len + BUFF_SIZE <= *len) {
-        return line;
-    }
-    new = realloc(line, (*len) + BUFF_SIZE);
-    *len += BUFF_SIZE;
     return new;
 }
 
-char *get_line(int fd, size_t *line_len, char *line)
+static char *get_line(int fd, char *line, size_t *line_len, size_t *buffer_len)
 {
-    size_t len = BUFF_SIZE;
-    ssize_t current;
+    ssize_t read_len = 1;
+    ssize_t new_line_idx = find_newline(line);
 
-    while (line && have_newline(line) == false) {
-        current = read(fd, &line[*line_len], BUFF_SIZE);
-        if (current == -1) {
+    while (line && new_line_idx == -1 && read_len != 0) {
+        read_len = read(fd, &line[*line_len], BUFF_SIZE);
+        if (read_len == -1) {
             perror("read");
             return NULL;
         }
-        (*line_len) += current;
+        (*line_len) += read_len;
         line[*line_len] = '\0';
-        line = realloc_line(line, &len, *line_len);
+        new_line_idx = find_newline(line);
+        if (new_line_idx == -1)
+            line = alloc_line(line, buffer_len, (*line_len));
     }
     return line;
 }
 
-char *socket_receive(socket_t *sock)
+static char *format_and_check_line(char *line, ssize_t new_line_idx)
+{
+    if (new_line_idx != -1) {
+        if (new_line_idx > 0 && line[new_line_idx - 1] == '\r')
+            line[new_line_idx - 1] = '\0';
+        else
+            line[new_line_idx] = '\0';
+        if (is_empty(line)) {
+            free(line);
+            return NULL;
+        }
+    } else {
+        free(line);
+        return NULL;
+    }
+    return line;
+}
+
+char *socket_receive(socket_t *sock, bool *empty)
 {
     size_t line_len = 0;
-    char *line = calloc(1, sizeof(char) * (BUFF_SIZE + 1));
+    size_t buffer_len = 0;
+    char *line = alloc_line(NULL, &buffer_len, line_len);
+    ssize_t new_line_idx;
 
     if (!line)
         return NULL;
-    line = get_line(sock->fd, &line_len, line);
+    line = get_line(sock->fd, line, &line_len, &buffer_len);
     if (!line)
         return NULL;
+    new_line_idx = find_newline(line);
+    line = format_and_check_line(line, new_line_idx);
+    if (line_len == 0)
+        *empty = true;
+    #ifdef DEBUG
+        fprintf(stderr, "line: (%s)\n", line ? line : "null");
+        fprintf(stderr, "received: %lu bytes\n", line_len);
+    #endif
     return line;
 }

@@ -13,6 +13,7 @@ extern bool loop;
 
 static void signal_handler(__attribute__((unused))int code)
 {
+    fprintf(stderr, "SIGNAL RECEIVED\n");
     loop = false;
 }
 

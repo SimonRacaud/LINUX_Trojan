@@ -12,6 +12,8 @@ SRC_FILES	=	main.c							\
 				app/process_command.c			\
 				app/signal_init.c				\
 				app/logger.c					\
+				app/shell_client.c				\
+				app/logout_user.c				\
 				daemon/daemon_init.c			\
 				daemon/daemon_start.c			\
 				socket/socket_send.c			\
@@ -21,6 +23,10 @@ SRC_FILES	=	main.c							\
 				socket/socket_server_connect.c	\
 				socket/socket_server_create.c	\
 				socket/socket_server_select.c	\
+				utility/find_newline.c			\
+				utility/is_empty.c				\
+				utility/str_to_upper.c			\
+				utility/strconcat.c				\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 

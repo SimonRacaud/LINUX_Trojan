@@ -16,10 +16,16 @@ typedef struct select {
     int status;
 } select_t;
 
+typedef struct shell_s {
+    pid_t pid;
+    int pipe[2];
+} shell_t;
+
 typedef struct server {
     socket_t sock;
     bool client_connected;
     socket_t client;
+    shell_t shell;
     select_t select;
 } server_t;
 
