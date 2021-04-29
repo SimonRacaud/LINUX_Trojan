@@ -19,8 +19,15 @@ static int client_connect(server_t *server)
     write_in_log(1, "Client connected\n");
     if (shell_client_init(&server->client, &server->shell))
         return EXIT_FAILURE;
-    dprintf(server->client.fd, "Shell started\n");
+    send_to_client(&server->client, 1, APP_WELCOME);
     return EXIT_SUCCESS;
+}
+
+static void command_exec_logging(server_t *server, const char *command)
+{
+    write_in_log(3, "> Command received [", command, "]\n");
+    send_to_client(&server->client, 3, "------ [Execute command] : {", command,
+        "} ------\n");
 }
 
 static int process_shell_command(server_t *server)
@@ -31,9 +38,14 @@ static int process_shell_command(server_t *server)
     command = socket_receive(&server->client, &empty);
     if (!command)
         return EXIT_FAILURE;
-    write_in_log(3, "> Command received [", command, "]\n");
+    command_exec_logging(server, command);
+    if (is_command(command, EXIT_CMD)) {
+        send_to_client(&server->client, 1, "[ Shutdown server ]\n");
+        app_stop();
+        return EXIT_SUCCESS;
+    }
     send_shell_command(&server->shell, command);
-    if (is_logout_command(command)) {
+    if (is_command(command, LOGOUT_CMD)) {
         logout_user(server);
     }
     free(command);

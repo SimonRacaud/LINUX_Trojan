@@ -26,7 +26,7 @@
 
 #define RANDOM_PORT 0
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #define TO_PROCESS(connection, fds) FD_ISSET(connection->sock.fd, &fds)
 

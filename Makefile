@@ -12,6 +12,7 @@ SRC_FILES	=	main.c							\
 				app/app_process_request.c		\
 				app/signal_init.c				\
 				app/logout_user.c				\
+				app/send_to_client.c			\
 				shell/shell_client_init.c		\
 				shell/shell_stop.c				\
 				shell/send_shell_command.c		\
@@ -29,6 +30,7 @@ SRC_FILES	=	main.c							\
 				utility/str_to_upper.c			\
 				utility/strconcat.c				\
 				utility/logger.c				\
+				utility/is_command.c			\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 

@@ -7,7 +7,7 @@
 
 #include "socket.h"
 
-static void debug(const uint port)
+static void debug(__attribute__((unused))const uint port)
 {
     #ifdef DEBUG
     fprintf(stderr, "Server is listening on port %u.\n", port);

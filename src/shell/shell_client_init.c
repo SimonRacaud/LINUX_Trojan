@@ -11,11 +11,9 @@ static void child_process(shell_t *shell, socket_t *client)
 {
     char *argv[] = {SHELL_NAME, NULL};
 
-    dup2(shell->pipe[0], 0);    // redirect pipe output to shell input
-    close(1);
-    dup(client->fd);            // redirect shell stdout to TCP client
-    close(2);
-    dup(client->fd);
+    dup2(shell->pipe[0], 0);        // redirect pipe output to shell input
+    dup2(client->fd, 1);            // redirect shell stdout to TCP client
+    dup2(client->fd, 2);            // redirect shell stderr to TCP client
     if (execvp(SHELL_NAME, argv) == -1) {
         perror("execvp");
         exit(EXIT_FAILURE);

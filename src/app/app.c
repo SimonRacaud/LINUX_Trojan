@@ -9,6 +9,11 @@
 
 bool loop = true;
 
+void app_stop(void)
+{
+    loop = false;
+}
+
 static int app_loop(server_t *server)
 {
     socket_t *client;

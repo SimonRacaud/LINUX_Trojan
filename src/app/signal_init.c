@@ -9,12 +9,10 @@
 #include <signal.h>
 #include "socket.h"
 
-extern bool loop;
-
 static void signal_handler(__attribute__((unused))int code)
 {
     fprintf(stderr, "SIGNAL RECEIVED\n");
-    loop = false;
+    app_stop();
 }
 
 int signal_init(void)

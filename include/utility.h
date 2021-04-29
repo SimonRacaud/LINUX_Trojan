@@ -19,5 +19,6 @@ bool is_empty(const char *str);
 char *strconcat(char *a, const char *b);
 
 int write_in_log(size_t size, ...);
+bool is_command(const char *command, const char *label);
 
 #endif // UTILITY_H
