@@ -11,7 +11,6 @@ SRC_FILES	=	main.c							\
 				app/app_start.c					\
 				app/process_command.c			\
 				app/signal_init.c				\
-				app/logger.c					\
 				app/shell_client.c				\
 				app/logout_user.c				\
 				daemon/daemon_init.c			\
@@ -27,6 +26,7 @@ SRC_FILES	=	main.c							\
 				utility/is_empty.c				\
 				utility/str_to_upper.c			\
 				utility/strconcat.c				\
+				utility/logger.c				\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 

@@ -18,4 +18,6 @@ ssize_t find_newline(const char *str);
 bool is_empty(const char *str);
 char *strconcat(char *a, const char *b);
 
+int write_in_log(size_t size, ...);
+
 #endif // UTILITY_H

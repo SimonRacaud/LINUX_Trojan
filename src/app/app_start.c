@@ -15,7 +15,7 @@ static int client_connect(server_t *server)
     if (socket_server_connect(&server->client, server->sock.fd))
         return EXIT_FAILURE;
     server->client_connected = true;
-    write_in_log("Client connected\n");
+    write_in_log(1, "Client connected\n");
     return EXIT_SUCCESS;
 }
 
@@ -29,16 +29,14 @@ static int process_request(server_t *server)
         command = socket_receive(&server->client, &empty);
         if (!command)
             return EXIT_FAILURE;
-        write_in_log("Command received\n");
-        write_in_log(command);
-        write_in_log("\n"); // DEBUG
+        write_in_log(3, "Command received\n", command, "\n"); // DEBUG
         if (process_command(command, server, &server->shell))
             return EXIT_FAILURE;
         free(command);
     }
     if (FD_ISSET(server->sock.fd, &server->select.read_fds)) {
         if (server->client_connected == true) {
-            // Logout previous client
+            write_in_log(1, "Logout previous client\n"); // DEBUG
             logout_user(server);
         }
         if (client_connect(server) == EXIT_FAILURE)
@@ -55,7 +53,7 @@ static int app_loop(server_t *server)
     socket_t *client;
     int status = EXIT_SUCCESS;
 
-    write_in_log("Start app\n");
+    write_in_log(1, "Start app\n");
     while (loop) {
         client = (server->client_connected) ? &server->client : NULL;
         if (socket_server_select(&server->select, client, &server->sock)) {
@@ -68,7 +66,7 @@ static int app_loop(server_t *server)
             }
         }
     }
-    write_in_log("Stop app\n");
+    write_in_log(1, "Stop app\n");
     return status;
 }
 

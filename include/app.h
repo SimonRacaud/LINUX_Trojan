@@ -17,6 +17,7 @@
 
 #include "daemon.h"
 #include "socket.h"
+#include "utility.h"
 #include "server_t.h"
 
 #ifdef EXIT_FAILURE
@@ -34,8 +35,6 @@ int app_start(void);
 int signal_init(void);
 
 int process_command(const char *command, server_t *server, shell_t *shell);
-
-int write_in_log(const char *command);
 
 /// SHELL
 void shell_stop(shell_t *shell);
