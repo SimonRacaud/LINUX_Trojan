@@ -9,16 +9,14 @@
 
 static int read_client_response(server_t *server)
 {
-    bool empty = false;
-    char *response;
+    char buffer[1024];
+    ssize_t len = 0;
 
-    response = socket_receive(&server->client, &empty);
-    if (!response) {
-        client_disconnect(server);
-        return EXIT_SUCCESS;
+    while ((len = recv(server->client.fd, buffer, sizeof(buffer) - 1, MSG_DONTWAIT)) > 0) {
+        buffer[len] = '\0';
+        printf("%s", buffer);
     }
-    printf("%s\n", response);
-    free(response);
+    fflush(NULL);
     return EXIT_SUCCESS;
 }
 
@@ -30,9 +28,10 @@ static int process_command(server_t *server)
     ssize_t nb = getline(&line, &size, stdin);
     if (line) {
         if (nb > 0) {
-            line[nb - 1] = '\0';
-            fprintf(stderr, "line = (%s)\n", line); // DEBUG
-            //socket_send(&server->client, line);
+            socket_send(&server->client, line);
+            if (is_command(line, LOGOUT_CMD)) {
+                client_disconnect(server);
+            }
         }
         free(line);
     }
@@ -41,8 +40,8 @@ static int process_command(server_t *server)
 
 int app_process_request(server_t *server)
 {
-    if (/*server->client_connected
-        && */FD_ISSET(STDIN_FILENO, &server->select.read_fds)) {
+    if (server->client_connected
+        && FD_ISSET(STDIN_FILENO, &server->select.read_fds)) {
         process_command(server);
     }
     if (server->client_connected

@@ -15,6 +15,6 @@ int client_connect(server_t *server)
     if (socket_server_connect(&server->client, server->sock.fd))
         return EXIT_FAILURE;
     server->client_connected = true;
-    fprintf(stderr, CLIENT_CONNECT);
+    fprintf(stderr, "%s\n", CLIENT_CONNECT);
     return EXIT_SUCCESS;
 }

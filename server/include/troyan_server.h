@@ -31,6 +31,8 @@
 #define CLIENT_CONNECT "{ CLIENT CONNECTED }"
 #define CLIENT_DISCONNECT "{ CLIENT DISCONNECTED }"
 
+#define LOGOUT_CMD "exit"
+
 /// SERVER
 int troyan_server_start(uint port);
 void app_stop(void);
