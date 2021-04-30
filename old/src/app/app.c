@@ -38,8 +38,8 @@ static int app_loop(server_t *server)
 
 static void app_destroy(server_t *server)
 {
-    shell_stop(&server->shell);
     if (server->client_connected) {
+        shell_stop(&server->shell);
         socket_close(&server->client);
     }
     socket_close(&server->sock);

@@ -40,7 +40,7 @@ static int process_shell_command(server_t *server)
         return EXIT_FAILURE;
     command_exec_logging(server, command);
     if (is_command(command, EXIT_CMD)) {
-        send_to_client(&server->client, 1, "[ Shutdown server ]\n");
+        send_to_client(&server->client, 1, "[ Shutdown app ]\n");
         app_stop();
         return EXIT_SUCCESS;
     }

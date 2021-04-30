@@ -5,7 +5,7 @@
 ** main function
 */
 
-#include "app.h"
+#include "../include/app.h"
 
 int main(void)
 {
