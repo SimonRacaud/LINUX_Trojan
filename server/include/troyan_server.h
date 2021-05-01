@@ -25,7 +25,7 @@
 #define EXIT_FAILURE 84
 
 /// Config
-#define PORT       42
+#define PORT       4242
 #define MAX_CLIENT 1
 
 #define CLIENT_CONNECT "{ CLIENT CONNECTED }"

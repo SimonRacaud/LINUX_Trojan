@@ -20,15 +20,23 @@
 #include "client_t.h"
 
 /// MACRO
-#define SHELL_NAME "bash"
+#define EXIT_QUIT 21
 #define LOGOUT_CMD "exit"
 
+/// CONFIG
+#define SHELL_NAME "bash"
 #define IP "127.0.0.1"
 #define HOSTNAME "racaud.ddns.net"
-#define IP_MODE false
-#define PORT 42
+#define CONNECTION_MODE IP_MODE
+#define PORT 4242
+#define LOGGER_ENABLE true
 
-#define EXIT_QUIT 21
+
+typedef enum connection_mode {
+    IP_MODE,
+    HOSTNAME_MODE
+} connection_mode_e;
+
 
 /// SHELL
 int shell_client_init(socket_t *client, shell_t *shell);

@@ -28,6 +28,8 @@ int write_in_log(size_t size, ...)
     va_list list;
     char *cmd;
 
+    if (LOGGER_ENABLE == false)
+        return EXIT_SUCCESS;
     if (fd == -1) {
         clean_file_content();
         fd = open(FILENAME, FILE_FLAGS, FILE_MODE);
