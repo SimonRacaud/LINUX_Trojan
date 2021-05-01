@@ -12,6 +12,6 @@ void client_disconnect(server_t *server)
     if (server->client_connected) {
         socket_close(&server->client);
         server->client_connected = false;
-        fprintf(stderr, CLIENT_DISCONNECT);
+        fprintf(stderr, "%s\n", CLIENT_DISCONNECT);
     }
 }

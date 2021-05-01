@@ -7,14 +7,33 @@
 
 DSRC	=	./src/
 
-SRC_FILES	=	main.c			\
-				reader.c		\
+SRC_FILES	=	main.c							\
+				client/client.c					\
+				shell/shell_client_init.c		\
+				shell/shell_stop.c				\
+				shell/send_shell_command.c		\
+				daemon/daemon_init.c			\
+				daemon/daemon_start.c			\
+				socket/socket_send.c			\
+				socket/socket_client_connect.c	\
+				socket/socket_close.c			\
+				socket/socket_receive.c			\
+				socket/socket_server_connect.c	\
+				socket/socket_server_create.c	\
+				socket/socket_server_select.c	\
+				utility/find_newline.c			\
+				utility/is_empty.c				\
+				utility/str_to_upper.c			\
+				utility/strconcat.c				\
+				utility/logger.c				\
+				utility/is_command.c			\
+				utility/signal_init.c			\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 
 OBJ	=	$(SRC:.c=.o)
 
-NAME	=	my_troyan_client
+NAME	=	my_troyan
 
 CFLAGS	+= -Wall -Wextra -W $(INCLUDE) #-Werror
 
@@ -39,6 +58,9 @@ fclean:	clean
 	rm -f $(NAME)
 
 re:	fclean all
+
+#tests_run:
+#	gcc -o $(NAME) $(SRC_UT) -I./include -lcriterion --coverage && ./$(NAME)
 
 .PHONY :        clean fclean re
 
