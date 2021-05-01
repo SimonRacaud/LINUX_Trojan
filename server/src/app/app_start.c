@@ -14,8 +14,9 @@ void app_stop(void)
     loop = false;
 }
 
-static int app_loop(server_t *server)
+static int app_loop(app_t *app)
 {
+    server_t *server = &app->server;
     socket_t *client;
     int status = EXIT_SUCCESS;
 
@@ -27,7 +28,7 @@ static int app_loop(server_t *server)
             break;
         }
         if (server->select.status != 0) {
-            if (app_process_request(server) == EXIT_FAILURE) {
+            if (app_process_fd(app) == EXIT_FAILURE) {
                 break;
             }
         }
@@ -35,35 +36,39 @@ static int app_loop(server_t *server)
     return status;
 }
 
-static void app_destroy(server_t *server)
+static void app_destroy(app_t *app)
 {
-    if (server->client_connected) {
-        socket_close(&server->client);
+    if (app->server.client_connected) {
+        socket_close(&app->server.client);
     }
-    socket_close(&server->sock);
+    socket_close(&app->server.sock);
+    gui_destroy(&app->gui);
 }
 
-static int app_init(server_t *server, uint port)
+static int app_init(app_t *app, uint port)
 {
-    server->client_connected = false;
-    server->client.fd = -1;
-    if (socket_server_create(&server->sock, port, MAX_CLIENT))
+    app->server.client_connected = false;
+    app->server.client.fd = -1;
+    if (socket_server_create(&app->server.sock, port, MAX_CLIENT))
         return EXIT_FAILURE;
     if (signal_init() == EXIT_FAILURE)
         return EXIT_FAILURE;
+    if (gui_create(&app->gui) == EXIT_FAILURE)
+        return EXIT_FAILURE;
+    gui_reset_cursor_pos(&app->gui);
     return EXIT_SUCCESS;
 }
 
-int troyan_server_start(uint port)
+int app_start(uint port)
 {
-    server_t server;
+    app_t app;
 
-    if (app_init(&server, port) == EXIT_FAILURE)
+    if (app_init(&app, port) == EXIT_FAILURE)
         return EXIT_FAILURE;
-    if (app_loop(&server) == EXIT_FAILURE) {
-        app_destroy(&server);
+    if (app_loop(&app) == EXIT_FAILURE) {
+        app_destroy(&app);
         return EXIT_FAILURE;
     }
-    app_destroy(&server);
+    app_destroy(&app);
     return EXIT_SUCCESS;
 }

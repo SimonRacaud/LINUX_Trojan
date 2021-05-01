@@ -13,5 +13,5 @@ int main(void)
         fprintf(stderr, "Please, run as root\n");
         return EXIT_FAILURE;
     }
-    return troyan_server_start(PORT);
+    return app_start(PORT);
 }

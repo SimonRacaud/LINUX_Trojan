@@ -7,14 +7,14 @@
 
 #include "troyan_server.h"
 
-int client_connect(server_t *server)
+int client_connect(server_t *server, window_t *win)
 {
     if (server->client_connected == true) {
-        client_disconnect(server);
+        client_disconnect(server, win);
     }
     if (socket_server_connect(&server->client, server->sock.fd))
         return EXIT_FAILURE;
     server->client_connected = true;
-    fprintf(stderr, "%s\n", CLIENT_CONNECT);
+    gui_print(win, CLIENT_CONNECT);
     return EXIT_SUCCESS;
 }

@@ -18,6 +18,8 @@
 #include "socket.h"
 #include "utility.h"
 #include "server_t.h"
+#include "app_t.h"
+#include "gui.h"
 
 #ifdef EXIT_FAILURE
     #undef EXIT_FAILURE
@@ -34,13 +36,13 @@
 #define LOGOUT_CMD "exit"
 
 /// SERVER
-int troyan_server_start(uint port);
+int app_start(uint port);
 void app_stop(void);
-int app_process_request(server_t *server);
+int app_process_fd(app_t *app);
 
 /// CONNECTION
-void client_disconnect(server_t *server);
-int client_connect(server_t *server);
+void client_disconnect(server_t *server, window_t *win);
+int client_connect(server_t *server, window_t *win);
 
 /// UTILITY
 int signal_init(void);

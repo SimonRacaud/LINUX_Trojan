@@ -10,8 +10,8 @@ DSRC	=	./src/
 SRC_FILES	=	main.c							\
 				app/client/client_connect.c		\
 				app/client/client_disconnect.c	\
-				app/app_process_request.c		\
-				app/troyan_server_start.c		\
+				app/app_process_fd.c			\
+				app/app_start.c					\
 				socket/socket_send.c			\
 				socket/socket_client_connect.c	\
 				socket/socket_close.c			\
@@ -26,6 +26,11 @@ SRC_FILES	=	main.c							\
 				utility/logger.c				\
 				utility/is_command.c			\
 				utility/signal_init.c			\
+				gui/gui_create.c				\
+				gui/gui_destroy.c				\
+				gui/gui_print.c					\
+				gui/gui_prompt.c				\
+				gui/gui_reset_cursor_pos.c		\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 
@@ -34,6 +39,7 @@ OBJ	=	$(SRC:.c=.o)
 NAME	=	my_troyan_cli
 
 CFLAGS	+= -Wall -Wextra -W $(INCLUDE) #-Werror
+LD_FLAGS += -lncurses
 
 INCLUDE = -I./include
 
@@ -43,7 +49,7 @@ debug: all
 all:  $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) -o $(NAME) $(OBJ) && \
+	@$(CC) -o $(NAME) $(OBJ) $(LD_FLAGS) && \
 		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME)\n"$(DEFAULT) || \
 		$(ECHO) $(BOLD_T)$(RED_C)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME)\n"$(DEFAULT)
 

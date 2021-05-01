@@ -7,11 +7,11 @@
 
 #include "troyan_server.h"
 
-void client_disconnect(server_t *server)
+void client_disconnect(server_t *server, window_t *win)
 {
     if (server->client_connected) {
         socket_close(&server->client);
         server->client_connected = false;
-        fprintf(stderr, "%s\n", CLIENT_DISCONNECT);
+        gui_print(win, CLIENT_DISCONNECT);
     }
 }
