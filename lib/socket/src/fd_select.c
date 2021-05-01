@@ -16,7 +16,7 @@ static void init_fds(fd_set *fds, va_list list, size_t size)
     }
 }
 
-int socket_server_rselect(select_t *data, size_t size, ...)
+int fd_select(select_t *data, size_t size, ...)
 {
     va_list list;
 

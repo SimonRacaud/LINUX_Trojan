@@ -30,7 +30,7 @@
 
 int socket_server_create(socket_t *sock, uint port, uint max_client);
 
-int socket_server_rselect(select_t *data, size_t size, ...);
+int fd_select(select_t *data, size_t size, ...);
 
 int socket_server_connect(socket_t *client, int server_fd);
 
