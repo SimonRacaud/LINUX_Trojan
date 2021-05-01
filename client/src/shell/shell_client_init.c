@@ -7,7 +7,6 @@
 
 #include "client.h"
 
-#include <errno.h>
 static void child_process(shell_t *shell, socket_t *client)
 {
     char *argv[] = {SHELL_NAME, NULL};

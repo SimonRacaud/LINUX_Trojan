@@ -31,12 +31,10 @@
 #define PORT 4242
 #define LOGGER_ENABLE true
 
-
 typedef enum connection_mode {
     IP_MODE,
     HOSTNAME_MODE
 } connection_mode_e;
-
 
 /// SHELL
 int shell_client_init(socket_t *client, shell_t *shell);
