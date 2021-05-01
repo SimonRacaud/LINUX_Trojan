@@ -7,7 +7,7 @@
 
 #include "socket.h"
 
-int socket_client_connect(socket_t *sock, uint port, const char *ip)
+int socket_client_ip_connect(socket_t *sock, uint port, const char *ip)
 {
     sock->fd = socket(AF_INET, SOCK_STREAM, 0);
     if (sock->fd == -1) {

@@ -16,6 +16,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <netdb.h>
 
 #include "socket_t.h"
 
@@ -39,7 +40,9 @@ int socket_server_connect(socket_t *client, int server_fd);
 char *socket_receive(socket_t *sock, bool *empty);
 int socket_send(socket_t *sock, const char *msg);
 
-int socket_client_connect(socket_t *sock, uint port, const char *ip);
+int socket_client_ip_connect(socket_t *sock, uint port, const char *ip);
+int socket_client_hostname_connect(
+    socket_t *sock, uint port, const char *hostname);
 
 int socket_close(socket_t *sock);
 

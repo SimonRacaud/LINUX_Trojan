@@ -12,7 +12,8 @@ bool loop = true;
 static int init(client_t *client)
 {
     do {
-        if (socket_client_connect(&client->socket, PORT, IP) == EXIT_SUCCESS) {
+        if (socket_client_ip_connect(&client->socket, PORT, IP)
+            == EXIT_SUCCESS) {
             write_in_log(1, "Connected to server\n");
             break;
         }

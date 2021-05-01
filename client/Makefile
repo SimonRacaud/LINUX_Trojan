@@ -15,7 +15,8 @@ SRC_FILES	=	main.c							\
 				daemon/daemon_init.c			\
 				daemon/daemon_start.c			\
 				socket/socket_send.c			\
-				socket/socket_client_connect.c	\
+				socket/socket_client_ip_connect.c		\
+				socket/socket_client_hostname_connect.c	\
 				socket/socket_close.c			\
 				socket/socket_receive.c			\
 				socket/socket_server_connect.c	\

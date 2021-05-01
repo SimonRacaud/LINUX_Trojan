@@ -24,6 +24,8 @@
 #define LOGOUT_CMD "exit"
 
 #define IP "127.0.0.1"
+#define HOSTNAME "racaud.ddns.net"
+#define IP_MODE false
 #define PORT 42
 
 #define EXIT_QUIT 21
