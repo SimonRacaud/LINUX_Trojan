@@ -39,5 +39,6 @@ int gui_create(gui_t *gui)
         return EXIT_FAILURE;
     if (window_create(&gui->wprompt, W_PROMPT_SIZE, W_PROMPT_POS, true))
         return EXIT_FAILURE;
+    scrollok(gui->woutput.win, TRUE);
     return EXIT_SUCCESS;
 }
