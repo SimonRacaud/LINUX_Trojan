@@ -40,5 +40,6 @@ int gui_create(gui_t *gui)
         return EXIT_FAILURE;
     scrollok(gui->woutput.win, TRUE);
     gui_reset_cursor_pos(gui);
+    gui_print_footer();
     return EXIT_SUCCESS;
 }

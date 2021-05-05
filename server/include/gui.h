@@ -17,6 +17,7 @@ void gui_destroy(gui_t *gui);
 
 int gui_print(window_t *win, const char *str);
 char *gui_prompt(window_t *win);
+void gui_print_footer(void);
 
 void gui_reset_cursor_pos(gui_t *gui);
 
