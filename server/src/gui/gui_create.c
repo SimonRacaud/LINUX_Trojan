@@ -25,15 +25,16 @@ static int window_create(window_t *window, const vector_t size,
 
 int gui_create(gui_t *gui)
 {
-    const vector_t W_RESULT_SIZE = {COLS, LINES / 2};
-    const vector_t W_RESULT_POS = {0, 3};
-    const vector_t W_PROMPT_POS = {0, 0};
-    const vector_t W_PROMPT_SIZE = {COLS, 3};
-
     if (initscr() == NULL) {
         perror("initscr");
         return EXIT_FAILURE;
     }
+    const size_t PROMPT_HEIGHT = 3;
+    const vector_t W_RESULT_SIZE = {COLS, LINES - PROMPT_HEIGHT - 1};
+    const vector_t W_RESULT_POS = {0, PROMPT_HEIGHT};
+    const vector_t W_PROMPT_POS = {0, 0};
+    const vector_t W_PROMPT_SIZE = {COLS, PROMPT_HEIGHT};
+
     if (window_create(&gui->woutput, W_RESULT_SIZE, W_RESULT_POS, false))
         return EXIT_FAILURE;
     if (window_create(&gui->wprompt, W_PROMPT_SIZE, W_PROMPT_POS, true))
