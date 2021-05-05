@@ -2,4 +2,17 @@
 
 
 ## Usage
-`$> make`
+`$> cd server && make && ./my_troyan_cli`
+
+`$> cd client && make && ./my_troyan`
+
+## Documentation
+
+# Concept
+![concept](.github/img/my_troyan-Concept.jpg)
+
+# Client
+![Client](.github/img/my_troyan-client_Troyan.jpg)
+
+# Server
+![Server](.github/img/my_troyan-server_Attack.jpg)
