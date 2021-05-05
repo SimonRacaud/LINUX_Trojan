@@ -48,13 +48,13 @@ static int init(client_t *client)
 
 static int client_loop(client_t *client)
 {
-    char *command = fd_getline(client->socket.fd, &client->input_buffer);
+    bool is_empty = false;
+    char *command = fd_getline(client->socket.fd, &client->input_buffer, &is_empty);
 
-    if (!command)
-        return EXIT_SUCCESS;
-    if (command[0] == '\0') {
-        free(command);
+    if (is_empty) {
         return EXIT_QUIT;
+    } else if (!command) {
+        return EXIT_SUCCESS;
     }
     write_in_log(3, "Command received : {", command, "}\n");
     if (is_command(command, LOGOUT_CMD)) {
@@ -83,11 +83,15 @@ static void client_destroy(client_t *client)
 int client(void)
 {
     client_t client;
+    select_t select;
 
     if (init(&client) == EXIT_FAILURE)
         return EXIT_FAILURE;
     while (loop) {
-        if (client_loop(&client) == EXIT_QUIT) {
+        if (fd_select(&select, 1, client.socket.fd) == EXIT_FAILURE)
+            return EXIT_FAILURE;
+        if (FD_ISSET(client.socket.fd, &select.read_fds)
+            && client_loop(&client) == EXIT_QUIT) {
             break;
         }
     }
