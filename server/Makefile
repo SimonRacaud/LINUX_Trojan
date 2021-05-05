@@ -24,6 +24,7 @@ SRC_FILES	=	main.c							\
 				gui/gui_print.c					\
 				gui/gui_prompt.c				\
 				gui/gui_reset_cursor_pos.c		\
+				gui/gui_event_resize.c			\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 

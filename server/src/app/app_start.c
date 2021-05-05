@@ -26,13 +26,13 @@ static int app_loop(app_t *app)
             if (fd_select(&server->select, 3, client->fd, server->sock.fd,
                     STDIN_FILENO)) {
                 status = EXIT_FAILURE;
-                break;
+                continue;
             }
         } else {
             if (fd_select(
                     &server->select, 2, server->sock.fd, STDIN_FILENO)) {
                 status = EXIT_FAILURE;
-                break;
+                continue;
             }
         }
         if (server->select.status != 0) {
@@ -63,7 +63,7 @@ static int app_init(app_t *app, uint port)
         return EXIT_FAILURE;
     if (gui_create(&app->gui) == EXIT_FAILURE)
         return EXIT_FAILURE;
-    gui_reset_cursor_pos(&app->gui);
+    gui_event_resize_init(&app->gui);
     return EXIT_SUCCESS;
 }
 

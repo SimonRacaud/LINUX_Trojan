@@ -13,7 +13,6 @@ static int window_create(window_t *window, const vector_t size,
     window->win = subwin(stdscr, size.y, size.x, position.y, position.x);
     window->show_border = have_box;
     if (window->win == NULL) {
-        perror("subwin");
         return EXIT_FAILURE;
     }
     if (have_box)
@@ -40,5 +39,6 @@ int gui_create(gui_t *gui)
     if (window_create(&gui->wprompt, W_PROMPT_SIZE, W_PROMPT_POS, true))
         return EXIT_FAILURE;
     scrollok(gui->woutput.win, TRUE);
+    gui_reset_cursor_pos(gui);
     return EXIT_SUCCESS;
 }

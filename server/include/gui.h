@@ -20,4 +20,7 @@ char *gui_prompt(window_t *win);
 
 void gui_reset_cursor_pos(gui_t *gui);
 
+// Handle window resize
+void gui_event_resize_init(gui_t *gui);
+
 #endif // GUI_H
