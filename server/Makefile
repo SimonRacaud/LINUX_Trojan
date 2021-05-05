@@ -37,9 +37,6 @@ LD_FLAGS += -lncurses -lmysocket -L../lib/socket
 
 INCLUDE = -I./include -I../lib/socket/include
 
-debug: CFLAGS += -g
-debug: re
-
 all:  $(NAME)
 
 $(NAME): $(OBJ)
@@ -55,6 +52,9 @@ clean:
 
 fclean:	clean
 	rm -f $(NAME)
+
+debug: CFLAGS += -g
+debug: re
 
 re:	fclean all
 

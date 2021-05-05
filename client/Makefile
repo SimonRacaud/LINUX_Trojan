@@ -33,10 +33,10 @@ LD_FLAGS += -lmysocket -L../lib/socket
 
 INCLUDE = -I./include -I../lib/socket/include
 
+all:  $(NAME)
+
 debug: CFLAGS += -g
 debug: all
-
-all:  $(NAME)
 
 $(NAME): $(OBJ)
 	make -C ../lib/socket
