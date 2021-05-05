@@ -15,6 +15,7 @@ typedef struct client_s {
     socket_t socket;
     bool is_connected;
     shell_t shell;
+    char *input_buffer;
 } client_t;
 
 #endif // CLIENT_T_H

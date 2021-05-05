@@ -14,14 +14,6 @@ SRC_FILES	=	main.c							\
 				shell/send_shell_command.c		\
 				daemon/daemon_init.c			\
 				daemon/daemon_start.c			\
-				socket/socket_send.c			\
-				socket/socket_client_ip_connect.c		\
-				socket/socket_client_hostname_connect.c	\
-				socket/socket_close.c			\
-				socket/socket_receive.c			\
-				socket/socket_server_connect.c	\
-				socket/socket_server_create.c	\
-				socket/socket_server_select.c	\
 				utility/find_newline.c			\
 				utility/is_empty.c				\
 				utility/str_to_upper.c			\
@@ -37,8 +29,9 @@ OBJ	=	$(SRC:.c=.o)
 NAME	=	my_troyan
 
 CFLAGS	+= -Wall -Wextra -W $(INCLUDE) #-Werror
+LD_FLAGS += -lmysocket -L../lib/socket
 
-INCLUDE = -I./include
+INCLUDE = -I./include -I../lib/socket/include
 
 debug: CFLAGS += -g
 debug: all
@@ -46,7 +39,8 @@ debug: all
 all:  $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) -o $(NAME) $(OBJ) && \
+	make -C ../lib/socket
+	@$(CC) -o $(NAME) $(OBJ) $(LD_FLAGS) && \
 		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME)\n"$(DEFAULT) || \
 		$(ECHO) $(BOLD_T)$(RED_C)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME)\n"$(DEFAULT)
 

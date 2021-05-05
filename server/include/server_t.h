@@ -11,11 +11,6 @@
 #include "socket_t.h"
 #include <stdbool.h>
 
-typedef struct select {
-    fd_set read_fds;
-    int status;
-} select_t;
-
 typedef struct server {
     socket_t sock;
     bool client_connected;

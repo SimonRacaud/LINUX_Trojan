@@ -22,10 +22,18 @@ static int app_loop(app_t *app)
 
     while (loop) {
         client = (server->client_connected) ? &server->client : NULL;
-        if (socket_server_select(
-                &server->select, client, &server->sock, STDIN_FILENO)) {
-            status = EXIT_FAILURE;
-            break;
+        if (client) {
+            if (fd_select(&server->select, 3, client->fd, server->sock.fd,
+                    STDIN_FILENO)) {
+                status = EXIT_FAILURE;
+                break;
+            }
+        } else {
+            if (fd_select(
+                    &server->select, 2, server->sock.fd, STDIN_FILENO)) {
+                status = EXIT_FAILURE;
+                break;
+            }
         }
         if (server->select.status != 0) {
             if (app_process_fd(app) == EXIT_FAILURE) {
@@ -63,8 +71,9 @@ int app_start(uint port)
 {
     app_t app;
 
-    if (app_init(&app, port) == EXIT_FAILURE)
+    if (app_init(&app, port) == EXIT_FAILURE) {
         return EXIT_FAILURE;
+    }
     if (app_loop(&app) == EXIT_FAILURE) {
         app_destroy(&app);
         return EXIT_FAILURE;

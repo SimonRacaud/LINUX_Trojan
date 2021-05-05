@@ -42,18 +42,20 @@ static int init(client_t *client)
     write_in_log(1, "Init shell\n");
     if (shell_client_init(&client->socket, &client->shell) == EXIT_FAILURE)
         return EXIT_FAILURE;
+    client->input_buffer = NULL;
     return EXIT_SUCCESS;
 }
 
 static int client_loop(client_t *client)
 {
-    bool is_empty = false;
-    char *command = socket_receive(&client->socket, &is_empty);
+    char *command = fd_getline(client->socket.fd, &client->input_buffer);
 
-    if (!command && is_empty)
-        return EXIT_QUIT;
     if (!command)
         return EXIT_SUCCESS;
+    if (command[0] == '\0') {
+        free(command);
+        return EXIT_QUIT;
+    }
     write_in_log(3, "Command received : {", command, "}\n");
     if (is_command(command, LOGOUT_CMD)) {
         free(command);
@@ -73,6 +75,9 @@ static void client_destroy(client_t *client)
     write_in_log(1, "Shutdown application\n");
     socket_close(&client->socket);
     shell_stop(&client->shell);
+    if (client->input_buffer) {
+        free(client->input_buffer);
+    }
 }
 
 int client(void)
