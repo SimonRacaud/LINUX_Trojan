@@ -28,7 +28,7 @@
 #define IP "127.0.0.1"
 #define HOSTNAME "racaud.ddns.net"
 #define CONNECTION_MODE IP_MODE
-#define PORT 4242
+#define PORT 12301
 #define LOGGER_ENABLE true
 
 typedef enum connection_mode {

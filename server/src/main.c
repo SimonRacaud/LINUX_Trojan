@@ -9,9 +9,5 @@
 
 int main(void)
 {
-    if(geteuid() != 0) {
-        fprintf(stderr, "Please, run as root\n");
-        return EXIT_FAILURE;
-    }
     return app_start(PORT);
 }
