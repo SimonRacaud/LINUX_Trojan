@@ -7,6 +7,9 @@ The goal of this project is to create a simple troyan application that allow to 
 
 `$> cd client && make && ./my_troyan`
 
+
+Linux only
+
 ## Documentation
 
 # Concept
