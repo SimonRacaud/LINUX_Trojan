@@ -1,5 +1,5 @@
 # Epitech Hub - Workshop - My_Trojan 04/2021
-The goal of this project is to create a simple Trojan application allowing to take discreetly the control of a computer remotely (same network or over internet). 
+The goal of this project is to create a simple Trojan application (for science!) that demonstrates how a computer can be remotely controlled in a discreet manner, either over a local network or through the Internet.
 
 ## Usage
 `$> cd server && make && ./my_troyan_cli`
